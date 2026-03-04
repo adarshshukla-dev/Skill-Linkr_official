@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { BlogContent } from "./BlogContent"
 
-// Define metadata for SEO
+// SEO Metadata
 export const metadata: Metadata = {
   title: "Startup Stories & Innovation Insights from E-Cell | MIT Meerut Blog",
   description:
@@ -43,7 +43,6 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  themeColor: "#004aad",
   category: "Entrepreneurship",
   authors: [{ name: "E-Cell MIT Meerut", url: "https://ecell.mitmuf.com" }],
   publisher: "MIT Meerut E-Cell",
@@ -52,6 +51,10 @@ export const metadata: Metadata = {
   },
 }
 
+// 👇 Add this separately
+export const viewport = {
+  themeColor: "#004aad",
+};
 
 export default function BlogPage() {
   return <BlogContent />
