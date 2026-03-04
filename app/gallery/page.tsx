@@ -8,9 +8,9 @@ import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
-import { Briefcase, User, Folder-kanban, Search, PlusCircle, ExternalLink } from "lucide-react"
+// Fixed Icons Import
+import { Briefcase, User, FolderKanban, Search, PlusCircle, ExternalLink, IndianRupee, Clock } from "lucide-react"
 
-// Mock Data for Projects
 const availableProjects = [
   { id: 1, title: "E-commerce Website", budget: "₹5000", duration: "2 Weeks", category: "Web Dev" },
   { id: 2, title: "Logo Design for Startup", budget: "₹1500", duration: "3 Days", category: "Design" },
@@ -18,127 +18,144 @@ const availableProjects = [
 ]
 
 export default function FreelancerDashboard() {
-  const [activeTab, setActiveTab] = useState("browse")
-
   return (
-    <div className="container mx-auto py-10 space-y-8">
+    <div className="container mx-auto py-10 px-4 space-y-8 max-w-7xl">
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b pb-6">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white dark:bg-slate-950 p-6 rounded-xl border shadow-sm">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Freelance Hub</h1>
-          <p className="text-muted-foreground">Manage your projects, browse opportunities, and build your brand.</p>
+          <h1 className="text-3xl font-extrabold tracking-tight text-blue-600">Student Freelancer Hub</h1>
+          <p className="text-muted-foreground mt-1">Monetize your skills while you study.</p>
         </div>
-        <Button className="bg-blue-600 hover:bg-blue-700">
-          <PlusCircle className="mr-2 h-4 w-4" /> Post a Project
-        </Button>
+        <div className="flex gap-3">
+           <Button variant="outline">Messages</Button>
+           <Button className="bg-blue-600 hover:bg-blue-700">
+            <PlusCircle className="mr-2 h-4 w-4" /> Post Project
+          </Button>
+        </div>
       </div>
 
-      <Tabs defaultValue="browse" className="w-full" onValueChange={setActiveTab}>
-        <TabsList className="grid w-full max-w-md grid-cols-3 mb-8">
+      <Tabs defaultValue="browse" className="w-full">
+        <TabsList className="grid w-full max-w-md grid-cols-3 mb-8 bg-blue-50 dark:bg-slate-900">
           <TabsTrigger value="browse">Browse</TabsTrigger>
           <TabsTrigger value="register">Register</TabsTrigger>
           <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
         </TabsList>
 
-        {/* --- 1. BROWSE PROJECTS --- */}
+        {/* 1. BROWSE PROJECTS SECTION */}
         <TabsContent value="browse" className="space-y-6">
-          <div className="flex items-center gap-4 max-w-sm mb-6">
-            <div className="relative flex-1">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search projects..." className="pl-8" />
+          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+            <div className="relative w-full md:w-96">
+              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input placeholder="Search skills (React, Figma...)" className="pl-10" />
+            </div>
+            <div className="flex gap-2 overflow-x-auto w-full md:w-auto pb-2">
+               <Badge className="cursor-pointer">All</Badge>
+               <Badge variant="outline" className="cursor-pointer">Web Dev</Badge>
+               <Badge variant="outline" className="cursor-pointer">UI/UX</Badge>
+               <Badge variant="outline" className="cursor-pointer">Content</Badge>
             </div>
           </div>
           
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {availableProjects.map((project) => (
-              <Card key={project.id} className="hover:shadow-md transition-shadow">
-                <CardHeader>
-                  <div className="flex justify-between items-start">
-                    <Badge variant="secondary">{project.category}</Badge>
-                    <span className="text-green-600 font-bold">{project.budget}</span>
+              <Card key={project.id} className="hover:border-blue-400 transition-all cursor-pointer group">
+                <CardHeader className="pb-3">
+                  <div className="flex justify-between items-center mb-2">
+                    <Badge variant="secondary" className="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+                      {project.category}
+                    </Badge>
+                    <div className="flex items-center text-green-600 font-bold">
+                      <IndianRupee className="h-4 w-4" />
+                      {project.budget.replace('₹', '')}
+                    </div>
                   </div>
-                  <CardTitle className="mt-2">{project.title}</CardTitle>
+                  <CardTitle className="group-hover:text-blue-600 transition-colors">{project.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground mb-4">Duration: {project.duration}</p>
-                  <Button className="w-full" variant="outline">Apply Now</Button>
+                  <div className="flex items-center text-sm text-muted-foreground mb-4 gap-4">
+                    <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {project.duration}</span>
+                    <span className="flex items-center gap-1"><Briefcase className="h-3 w-3" /> Entry Level</span>
+                  </div>
+                  <Button className="w-full">Apply Now</Button>
                 </CardContent>
               </Card>
             ))}
           </div>
         </TabsContent>
 
-        {/* --- 2. REGISTER AS FREELANCER --- */}
+        {/* 2. REGISTER SECTION */}
         <TabsContent value="register">
-          <Card className="max-w-2xl mx-auto">
+          <Card className="max-w-2xl mx-auto border-t-4 border-t-blue-600">
             <CardHeader>
-              <CardTitle>Freelancer Registration</CardTitle>
-              <CardDescription>Setup your profile to start receiving project offers.</CardDescription>
+              <CardTitle>Become a Student Freelancer</CardTitle>
+              <CardDescription>Fill in your details to get verified and start bidding.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Full Name</Label>
-                  <Input id="name" placeholder="John Doe" />
+                  <Label>Full Name</Label>
+                  <Input placeholder="Aman Kumar" />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="skills">Primary Skill</Label>
-                  <Input id="skills" placeholder="React, UI/UX, Python" />
+                  <Label>College ID Number</Label>
+                  <Input placeholder="MIT-2024-XXX" />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="bio">About You</Label>
-                <Textarea id="bio" placeholder="Tell clients why they should hire you..." />
+                <Label>Skills (Comma separated)</Label>
+                <Input placeholder="React, Graphic Design, Video Editing" />
               </div>
-              <Button className="w-full bg-green-600 hover:bg-green-700 text-white">
-                Submit Profile
-              </Button>
+              <div className="space-y-2">
+                <Label>Short Bio</Label>
+                <Textarea placeholder="Describe your expertise..." className="min-h-[100px]" />
+              </div>
+              <Button className="w-full bg-blue-600">Complete Registration</Button>
             </CardContent>
           </Card>
         </TabsContent>
 
-        {/* --- 3. PORTFOLIO & MY PROJECTS --- */}
+        {/* 3. PORTFOLIO SECTION */}
         <TabsContent value="portfolio" className="space-y-6">
-          <div className="grid gap-6 md:grid-cols-3">
-            {/* Stats Sidebar */}
-            <Card className="md:col-span-1 h-fit">
-              <CardHeader className="text-center">
-                <div className="w-20 h-20 bg-blue-100 rounded-full mx-auto flex items-center justify-center mb-4">
-                  <User className="h-10 w-10 text-blue-600" />
+          <div className="grid gap-6 md:grid-cols-4">
+            <Card className="md:col-span-1 border-none shadow-none bg-slate-50 dark:bg-slate-900">
+              <CardHeader className="items-center text-center">
+                <div className="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center text-white text-3xl font-bold mb-4 shadow-lg">
+                  AK
                 </div>
-                <CardTitle>My Profile</CardTitle>
-                <p className="text-sm text-muted-foreground">Completed 12 Projects</p>
+                <CardTitle>Aman Kumar</CardTitle>
+                <Badge className="mt-1">Top Rated</Badge>
               </CardHeader>
-              <CardContent className="space-y-2">
-                <div className="flex justify-between text-sm border-b py-2">
-                  <span>Rating</span>
-                  <span className="font-bold text-yellow-500">⭐ 4.9</span>
-                </div>
-                <div className="flex justify-between text-sm border-b py-2">
-                  <span>Earnings</span>
-                  <span className="font-bold">₹12,400</span>
-                </div>
+              <CardContent className="space-y-4">
+                 <div className="p-3 bg-white dark:bg-slate-800 rounded-lg border flex justify-between">
+                    <span className="text-sm font-medium">Earnings</span>
+                    <span className="text-sm font-bold text-green-600">₹15,200</span>
+                 </div>
+                 <div className="p-3 bg-white dark:bg-slate-800 rounded-lg border flex justify-between">
+                    <span className="text-sm font-medium">Success Rate</span>
+                    <span className="text-sm font-bold text-blue-600">98%</span>
+                 </div>
               </CardContent>
             </Card>
 
-            {/* Past Work Display */}
-            <div className="md:col-span-2 space-y-4">
-              <h3 className="text-xl font-semibold flex items-center">
-                <Folder-kanban className="mr-2 h-5 w-5" /> Recent Work
-              </h3>
-              {[1, 2].map((i) => (
-                <Card key={i}>
-                  <CardContent className="p-4 flex justify-between items-center">
-                    <div>
-                      <h4 className="font-medium">Portfolio Website V{i}</h4>
-                      <p className="text-xs text-muted-foreground italic">Tech: Next.js, Tailwind</p>
-                    </div>
-                    <Button size="sm" variant="ghost">
-                      <ExternalLink className="h-4 w-4" />
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
+            <div className="md:col-span-3 space-y-6">
+               <h3 className="text-xl font-bold flex items-center gap-2">
+                <FolderKanban className="text-blue-600" /> My Portfolio Projects
+               </h3>
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {[1, 2, 3, 4].map((i) => (
+                    <Card key={i} className="overflow-hidden group">
+                      <div className="h-32 bg-slate-200 dark:bg-slate-800 relative">
+                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
+                            <Button size="sm" variant="secondary">View Project</Button>
+                         </div>
+                      </div>
+                      <CardContent className="p-3">
+                        <h4 className="font-semibold text-sm">Project Title #{i}</h4>
+                        <p className="text-xs text-muted-foreground italic">Developed using Next.js</p>
+                      </CardContent>
+                    </Card>
+                  ))}
+               </div>
             </div>
           </div>
         </TabsContent>
