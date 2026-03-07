@@ -4,6 +4,9 @@ import { Subscriber } from "@/models/subscriber"
 import { cookies } from "next/headers"
 import { verify } from "jsonwebtoken"
 
+// FIX: This line tells Next.js this route MUST be rendered on the server at request time
+export const dynamic = 'force-dynamic';
+
 const JWT_SECRET = process.env.JWT_SECRET || "ecell-admin-secret-key"
 
 export async function GET(request: Request) {
@@ -17,7 +20,8 @@ export async function GET(request: Request) {
 
     try {
       const decoded = verify(token, JWT_SECRET)
-      if (typeof decoded !== "string" && decoded.email !== "ecell@mitmeerut.ac.in") {
+      // Note: Added a check to ensure decoded is an object before accessing .email
+      if (typeof decoded === "string" || decoded.email !== "ecell@mitmeerut.ac.in") {
         throw new Error("Invalid token")
       }
     } catch (error) {
